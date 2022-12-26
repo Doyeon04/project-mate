@@ -43,6 +43,8 @@ public class CommentDto {
         private int secret;
         private String writer;
         private List<CommentDto.Response> commentList;
+        private String createdDate;
+        private String modifiedDate;
 
         public Response(Comment comment){
             this.id = comment.getId();
@@ -50,6 +52,8 @@ public class CommentDto {
             this.secret = comment.getSecret();
             this.writer = comment.getWriter();
             this.commentList = comment.getCommentList().stream().map(CommentDto.Response::new).collect(Collectors.toList());
+            this.createdDate = comment.getCreatedDate();
+            this.modifiedDate = comment.getModifiedDate();
         }
     }
    /* @Data
