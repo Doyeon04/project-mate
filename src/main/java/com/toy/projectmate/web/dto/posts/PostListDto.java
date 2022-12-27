@@ -1,10 +1,14 @@
 package com.toy.projectmate.web.dto.posts;
 
+import com.toy.projectmate.domain.Comment.Comment;
 import com.toy.projectmate.domain.posts.Posts;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
@@ -23,6 +27,7 @@ public class PostListDto {
     private String createdDate;
     private String modifiedDate;
     private int view_count;
+    private int comment_count;
 
     public PostListDto(Posts posts){
         this.id = posts.getId();
@@ -35,7 +40,13 @@ public class PostListDto {
         this.proceed_way = posts.getProceed_way();
         this.createdDate = posts.getCreatedDate();
         this.modifiedDate = posts.getModifiedDate();
-        this.view_count = posts.getView_count(); 
+        this.view_count = posts.getView_count();
+        this.comment_count = calcCommentCnt(posts.getCommentList());
+    }
+
+    public int calcCommentCnt(List<Comment> commentList){
+       List<Integer> commentSizeList = commentList.stream().map(x->x.getCommentList().size()).collect(Collectors.toList());
+        return commentList.size() + commentSizeList.stream().mapToInt(num -> num).sum();
     }
 
 }
