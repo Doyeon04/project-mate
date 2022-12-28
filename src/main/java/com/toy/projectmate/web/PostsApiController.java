@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,10 +48,22 @@ public class PostsApiController {
         return ResponseEntity.ok(id);
     }
 
-    @ApiOperation(value="게시글 전체 조회")
+    /*@ApiOperation(value="게시글 전체 조회")
     @GetMapping("/postList")
-    public Page<PostListDto> list(@PageableDefault(size=6) Pageable pageable){
-        return postsService.pageList(pageable).map(PostListDto::new);
+    public Page<PostListDto> findAllList(@PageableDefault(size=6) Pageable pageable){
+        return postsService.pageList(pageable).map(PostListDto::new); // = map(posts -> new PostListDto(posts));
+    }
+*/
+    @ApiOperation(value="게시글 목록 필터링 조회", notes = "과목, 분반, 진행여부에 따라 조회")
+    @GetMapping("/postList/filtering")
+    public Page<PostListDto> findFilteringList(@PageableDefault(size=6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable, @RequestParam String subject, @RequestParam String division, @RequestParam int is_progress){
+        return postsService.findFilteringList(pageable, subject, division, is_progress).map(PostListDto::new);
+    }
+
+    @ApiOperation(value="게시글 목록 진행여부로 조회")
+    @GetMapping("/postList")
+    public Page<PostListDto> findListByProgress(@PageableDefault(size=6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable, @RequestParam int is_progress){
+        return postsService.findListByProgress(pageable, is_progress).map(PostListDto::new);
     }
 
 }

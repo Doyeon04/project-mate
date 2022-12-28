@@ -17,8 +17,6 @@ public class CommentDto {
         private String content;
         private String writer;
 
-      //  private Posts posts;
-       // private Comment parent;
         private Long parentId;
         private int secret;
         public Comment toEntity(Comment parent, Posts post){
@@ -56,19 +54,5 @@ public class CommentDto {
             this.modifiedDate = comment.getModifiedDate();
         }
     }
-   /* @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    public static class Response{
-        private List<responseComment> commentList;
-    }
 
-    public static class responseComment{
-        private Long id;
-        private String content;
-        private int secret;
-        private String writer;
-        private List<CommentDto.responseComment> commentList;
-    }*/
 }

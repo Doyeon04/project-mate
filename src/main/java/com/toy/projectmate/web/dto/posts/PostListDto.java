@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-
 public class PostListDto {
     private Long id;
     private String title;
@@ -22,7 +21,7 @@ public class PostListDto {
     private String subject;
     private String division;
     private String writer;
-    private int proceed_way;
+    private String proceed_way;
     private int is_progress;
     private String createdDate;
     private String modifiedDate;
@@ -45,8 +44,8 @@ public class PostListDto {
     }
 
     public int calcCommentCnt(List<Comment> commentList){
-       List<Integer> commentSizeList = commentList.stream().map(x->x.getCommentList().size()).collect(Collectors.toList());
-        return commentList.size() + commentSizeList.stream().mapToInt(num -> num).sum();
+       List<Integer> recommentSizeList = commentList.stream().map(x->x.getCommentList().size()).collect(Collectors.toList());
+        return commentList.size() + recommentSizeList.stream().mapToInt(num -> num).sum();
     }
 
 }

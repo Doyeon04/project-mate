@@ -14,4 +14,10 @@ public interface PostsRepository extends JpaRepository<Posts, Long> {
     @Modifying
     @Query("update Posts p set p.view_count = p.view_count+1 where p.id =:id")
     int updateViewCount(@Param("id") Long id);
+
+    @Query(value="select p from Posts p where p.subject = :subject and p.division = :division and p.is_progress = :is_progress")
+    Page<Posts> findAllByFiltering(Pageable pageable, String subject, String division, int is_progress);
+
+    @Query(value="select p from Posts p where p.is_progress = :is_progress")
+    Page<Posts> findAllByProgress(Pageable pageable, int is_progress);
 }

@@ -38,8 +38,8 @@ public class Posts extends BaseTimeEntity {
     @Column(nullable = false)
     private int people_num;
 
-    @Column(columnDefinition = "TINYINT", length = 1)
-    private int proceed_way;
+    @Column(nullable=false)
+    private String proceed_way;
 
     @Column(columnDefinition = "TINYINT", length = 1)
     private int is_progress;
@@ -50,12 +50,12 @@ public class Posts extends BaseTimeEntity {
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int mark_count;
 
-    @OneToMany(mappedBy = "posts", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "posts", orphanRemoval = true)
     @Where(clause = "parent_id is null")
     private List<Comment> commentList = new ArrayList<>();
 
     @Builder
-    public Posts(String writer, String title, String content, String subject, String division, int people_num, int proceed_way, int is_progress, int view_count) {
+    public Posts(String writer, String title, String content, String subject, String division, int people_num, String proceed_way, int is_progress, int view_count) {
         this.writer = writer;
         this.title = title;
         this.content = content;
@@ -67,7 +67,7 @@ public class Posts extends BaseTimeEntity {
         this.view_count = view_count;
     }
 
-    public void update(String title, String content, String subject, String division, int people_num, int proceed_way, int is_progress){
+    public void update(String title, String content, String subject, String division, int people_num, String proceed_way, int is_progress){
         this.title = title;
         this.content = content;
         this.subject = subject;

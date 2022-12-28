@@ -21,7 +21,7 @@ public class PostsDto {
         private String subject;
         private String division;
         private int people_num;
-        private int proceed_way;
+        private String proceed_way;
         private int is_progress;
 
 
@@ -31,6 +31,7 @@ public class PostsDto {
                     .content(content)
                     .writer(writer)
                     .subject(subject)
+                    .is_progress(is_progress)
                     .division(division)
                     .people_num(people_num)
                     .proceed_way(proceed_way)
@@ -48,7 +49,7 @@ public class PostsDto {
         private String subject;
         private String division;
         private int people_num;
-        private int proceed_way;
+        private String proceed_way;
         private int is_progress;
         private String createdDate;
         private String modifiedDate;
@@ -73,16 +74,6 @@ public class PostsDto {
             this.commentList = entity.getCommentList().stream().map(CommentDto.Response::new).collect(Collectors.toList());
         }
     }
-
-
-   /* @Getter
-    @Setter
-    public static class Comment{
-        private Long id;
-        private String content;
-        private int secret;
-        private List<Comment> commentList;
-    }*/
 
 
 }
