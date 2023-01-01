@@ -3,6 +3,8 @@ package com.toy.projectmate.web;
 import com.toy.projectmate.service.PostsService;
 import com.toy.projectmate.web.dto.posts.PostListDto;
 import com.toy.projectmate.web.dto.posts.PostsDto;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
@@ -23,6 +25,9 @@ public class PostsApiController {
 
     private final Logger logger = LoggerFactory.getLogger(PostsApiController.class);
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="Authorization", value="로그인 성공후 받은 토큰", required = true, dataType = "String", paramType = "header")
+    })
     @ApiOperation(value="게시물 등록")
     @PostMapping
     public ResponseEntity save(@RequestBody PostsDto.Request requestDto){
@@ -34,6 +39,10 @@ public class PostsApiController {
     public ResponseEntity update(@PathVariable Long id, @RequestBody PostsDto.Request requestDto){
         return ResponseEntity.ok(postsService.update(id, requestDto));
     }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="X-AUTH-TOKEN", value="로그인 성공후 받은 토큰", required = true, dataType = "String", paramType = "header")
+    })
     @ApiOperation(value="게시물 조회")
     @GetMapping("/{id}")
     public ResponseEntity read(@PathVariable Long id){
