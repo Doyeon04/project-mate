@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/member/sign-in", "/member/sign-up", "/member/exception", "/swagger-ui").permitAll()
+                .antMatchers("/member/sign-in", "/member/sign-up", "/member/exception").permitAll()
                 .antMatchers("**exception**").permitAll()
                 .antMatchers("/post/postList/filtering", "/post/postList").permitAll()
                // .antMatchers("/member").hasRole("USER")
@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity webSecurity){
-        webSecurity.ignoring().antMatchers( "/v3/api-docs",  "/swagger-resources/**",   "/swagger-ui.html",   "/webjars/**",  "/swagger/**", "/member/exception");
+        webSecurity.ignoring().antMatchers( "/v3/api-docs",  "/swagger-resources/**",   "/swagger-ui.html",   "/webjars/**",  "/swagger/**", "/swagger-ui/**", "/member/exception");
     }
 
 
