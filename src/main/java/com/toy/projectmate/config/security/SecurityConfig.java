@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/member/sign-in", "/member/sign-up", "/member/exception").permitAll()
+                .antMatchers("/member/sign-in", "/member/sign-up", "/member/exception", "/swagger-ui").permitAll()
                 .antMatchers("**exception**").permitAll()
                 .antMatchers("/post/postList/filtering", "/post/postList").permitAll()
                // .antMatchers("/member").hasRole("USER")
