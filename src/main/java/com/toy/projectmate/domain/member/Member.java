@@ -26,6 +26,9 @@ public class Member implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable=false, unique = true)
+    private String studentId;
+
     @Column(length=45, nullable = false, unique = true)
     private String email;
 
@@ -57,7 +60,7 @@ public class Member implements UserDetails {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Override
     public String getUsername() {
-        return this.email;
+        return this.studentId;
     }
 
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)

@@ -35,7 +35,7 @@ public class JwtTokenProvider {
     @Value("${springboot.jwt.secret}")
     private String secretKey = "secretKey";
 
-    // 토큰 유효시간 168 시간(7일)
+    // 토큰 유효시간
     private final long tokenValidTime = 1000L * 60 * 60;
 
 

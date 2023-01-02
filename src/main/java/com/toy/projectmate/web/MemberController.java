@@ -1,8 +1,7 @@
 package com.toy.projectmate.web;
 
-import com.toy.projectmate.domain.member.MemberRepository;
 import com.toy.projectmate.service.MemberService;
-import com.toy.projectmate.web.dto.member.MemberSignUpRequestDto;
+import com.toy.projectmate.web.dto.member.SignUpRequestDto;
 import com.toy.projectmate.web.dto.member.SignInResultDto;
 import com.toy.projectmate.web.dto.member.SignUpResultDto;
 import lombok.RequiredArgsConstructor;
@@ -24,26 +23,12 @@ public class MemberController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(MemberController.class);
     private final MemberService memberService;
-    private final MemberRepository memberRepository;
-
-    /*@PostMapping("/join")
-    public ResponseEntity join(@Valid @RequestBody MemberSignUpRequestDto requestDto) throws Exception{
-        return ResponseEntity.ok(memberService.signUp(requestDto));
-    }
-
-    @PostMapping("/login")
-    public String login(@RequestBody Map<String, String> member){
-        return memberService.login(member);
-    }*/
 
     @PostMapping(value = "/sign-in")
     public SignInResultDto signIn(@RequestParam String id, @RequestParam String password) throws RuntimeException {
         LOGGER.info("[signIn] 로그인을 시도하고 있습니다. id : {}, pw : ****", id);
         SignInResultDto signInResultDto = memberService.signIn(id, password);
 
-      /*  if(signInResultDto.getCode() == 0){
-            signInResultDto.getToken();
-        }*/
         if(signInResultDto.getCode() == 0){
             LOGGER.info("[signIn] 정상적으로 로그인되었습니다. id : {}, token : {}", id, signInResultDto.getToken());
         }
@@ -52,12 +37,12 @@ public class MemberController {
 
     @PostMapping(value = "/sign-up")
     public SignUpResultDto signUp(
-            @RequestParam String id, @RequestParam String password, @RequestParam String name, @RequestParam String role) {
+            @Valid @RequestBody SignUpRequestDto requestDto) throws Exception {
 
-        LOGGER.info("[signUp] 회원가입을 수행합니다. id : {}. password : ****, name: {}, role : {}", id, name, role);
-        SignUpResultDto signUpResultDto = memberService.signUp(id, password, name, role);
+        LOGGER.info("[signUp] 회원가입을 수행합니다. id : {}. password : ****, name: {}, role : {}", requestDto.getStudentId(), requestDto.getNickname(), requestDto.getRole());
+        SignUpResultDto signUpResultDto = memberService.signUp(requestDto);
 
-        LOGGER.info("[signUp] 회원가입을 완료했습니다. id : {}", id);
+        LOGGER.info("[signUp] 회원가입을 완료했습니다. id : {}", requestDto.getStudentId());
         return signUpResultDto;
     }
 
