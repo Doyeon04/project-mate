@@ -46,11 +46,10 @@ public class PostsApiControllerTest {
         PostsDto.Request requestDto = PostsDto.Request.builder()
                 .title(title)
                 .content(content)
-                .writer("writer")
                 .subject("subject")
                 .division("A")
                 .people_num(3)
-                .proceed_way(1)
+                .proceed_way("온라인")
                 .is_progress(0)
                 .build();
 
@@ -74,11 +73,10 @@ public class PostsApiControllerTest {
         Posts savedPosts = postsRepository.save(Posts.builder()
                         .title("title")
                         .content("content")
-                        .writer("writername")
                         .subject("subject")
                         .division("N")
                         .people_num(4)
-                        .proceed_way(0)
+                        .proceed_way("온라인")
                         .is_progress(0)
                         .build());
         Long updateId = savedPosts.getId();
@@ -88,11 +86,10 @@ public class PostsApiControllerTest {
         PostsDto.Request requestDto = PostsDto.Request.builder()
                 .title(expectedTitle)
                 .content(expectedContent)
-                .writer("writer")
                 .subject("subject")
                 .division("A")
                 .people_num(3)
-                .proceed_way(1)
+                .proceed_way("온라인")
                 .is_progress(0)
                 .build();
 

@@ -1,6 +1,7 @@
 package com.toy.projectmate.domain.Comment;
 
 import com.toy.projectmate.domain.BaseTimeEntity;
+import com.toy.projectmate.domain.member.Member;
 import com.toy.projectmate.domain.posts.Posts;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -24,7 +25,9 @@ public class Comment extends BaseTimeEntity {
     @JoinColumn(name="post_id")
     private Posts posts;
 
-    private String writer;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="member_id")
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="parent_id")
@@ -40,8 +43,9 @@ public class Comment extends BaseTimeEntity {
     private List<Comment> commentList = new ArrayList<>();
 
     @Builder
-    public Comment(String writer, String content, int secret, Posts posts, Comment parent) {
-        this.writer = writer;
+    public Comment(Member member, String content, int secret, Posts posts, Comment parent) {
+        this.member = member;
+
         this.content = content;
         this.secret = secret;
         this.posts = posts;

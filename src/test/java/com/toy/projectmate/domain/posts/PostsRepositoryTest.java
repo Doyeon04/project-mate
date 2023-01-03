@@ -32,11 +32,10 @@ public class PostsRepositoryTest {
             postsRepository.save(Posts.builder()
                     .title("타이틀"+i)
                     .content("내용")
-                    .writer("writername")
                     .subject("subject")
                     .division("N")
                     .people_num(4)
-                    .proceed_way(0)
+                    .proceed_way("온라인")
                     .is_progress(0)
                     .build());
         }
@@ -44,8 +43,6 @@ public class PostsRepositoryTest {
         // when
         PageRequest pageRequest = PageRequest.of(0, 3);
         Page<Posts> page = postsRepository.findAll(pageRequest);
-
-        // then
         List<Posts> list = page.getContent();
         assertThat(list.size()).isEqualTo(3);
         assertThat(page.getTotalElements()).isEqualTo(10);
@@ -63,13 +60,14 @@ public class PostsRepositoryTest {
         String content = "테스트 본문";
         //given
         postsRepository.save(Posts.builder()
-                .title(title)
-                .content(content)
-                .writer("writername")
+                        .title(title)
+                        .content(content)
+
+        // th
                 .subject("subject")
                 .division("N")
                 .people_num(4)
-                .proceed_way(0)
+                .proceed_way("온라인")
                 .is_progress(0)
                 .build());
         //when

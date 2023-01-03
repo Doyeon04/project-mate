@@ -19,7 +19,6 @@ public class PostsDto {
         private String title;
         private String content;
         private Member member;
-        private String writer;
         private String subject;
         private String division;
         private int people_num;
@@ -32,7 +31,6 @@ public class PostsDto {
                     .title(title)
                     .member(member)
                     .content(content)
-                    .writer(writer)
                     .subject(subject)
                     .is_progress(is_progress)
                     .division(division)
@@ -48,8 +46,9 @@ public class PostsDto {
         private Long id;
         private String title;
         private String content;
-        private Member member;
-        private String writer;
+        private String writer_nickname;
+        private String writer_id;
+
         private String subject;
         private String division;
         private int people_num;
@@ -65,8 +64,8 @@ public class PostsDto {
         public Response(Posts entity){ // entity -> dto
             this.id = entity.getId();
             this.title = entity.getTitle();
-            this.member = entity.getMember();
-            this.writer = entity.getWriter();
+            this.writer_nickname = entity.getMember().getNickname();
+            this.writer_id = entity.getMember().getStudentId();
             this.content = entity.getContent();
             this.subject = entity.getSubject();
             this.division = entity.getDivision();

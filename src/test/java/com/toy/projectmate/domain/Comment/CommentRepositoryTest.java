@@ -25,26 +25,7 @@ class CommentRepositoryTest {
 
     @Test
     public void 댓글_수정(){
- /*       Posts post = postsRepository.save(Posts.builder()
-                .title("title")
-                .content("content")
-                .writer("writername")
-                .subject("subject")
-                .division("N")
-                .people_num(4)
-                .proceed_way(0)
-                .is_progress(0)
-                .build());
 
-        Comment savedComment = commentRepository.save(Comment.builder()
-                .writer("writer")
-                .content("content")
-                .posts(post)
-                .secret(0)
-                .parent(null)
-                .build());
-
-    */
 
     }
 }

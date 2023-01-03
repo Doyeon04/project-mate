@@ -19,9 +19,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/member")
 @RestController
-public class MemberController {
+public class MemberApiController {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(MemberController.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(MemberApiController.class);
     private final MemberService memberService;
 
     @PostMapping(value = "/sign-in")

@@ -1,6 +1,7 @@
 package com.toy.projectmate.web.dto.Comment;
 
 import com.toy.projectmate.domain.Comment.Comment;
+import com.toy.projectmate.domain.member.Member;
 import com.toy.projectmate.domain.posts.Posts;
 import lombok.*;
 
@@ -15,14 +16,13 @@ public class CommentDto {
     @Builder
     public static class Request{
         private String content;
-        private String writer;
 
         private Long parentId;
         private int secret;
+
         public Comment toEntity(Comment parent, Posts post){
             Comment comment = Comment.builder()
                     .posts(post)
-                    .writer(writer)
                     .content(content)
                     .secret(secret)
                     .parent(parent)
@@ -39,7 +39,8 @@ public class CommentDto {
         private Long id;
         private String content;
         private int secret;
-        private String writer;
+        private String writer_nickname;
+        private String writer_id;
         private List<CommentDto.Response> commentList;
         private String createdDate;
         private String modifiedDate;
@@ -48,7 +49,8 @@ public class CommentDto {
             this.id = comment.getId();
             this.content = comment.getContent();
             this.secret = comment.getSecret();
-            this.writer = comment.getWriter();
+            this.writer_nickname = comment.getMember().getNickname();
+            this.writer_id = comment.getMember().getStudentId();
             this.commentList = comment.getCommentList().stream().map(CommentDto.Response::new).collect(Collectors.toList());
             this.createdDate = comment.getCreatedDate();
             this.modifiedDate = comment.getModifiedDate();

@@ -19,16 +19,20 @@ public class PostsService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Long save(PostsDto.Request dto, Member member){
+    public Long save(PostsDto.Request dto, Long memberId){
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
         dto.setMember(member); // 유저 정보 담기
         return postsRepository.save(dto.toEntity()).getId();
     }
 
     @Transactional
-    public Long update(Long id, PostsDto.Request dto){
-        Posts posts = postsRepository.findById(id)
+    public Long update(Long id, PostsDto.Request dto, Long memberId) throws Exception {
+        Posts post = postsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id="+id));
-        posts.update(dto.getTitle(), dto.getContent(), dto.getSubject(), dto.getDivision(), dto.getPeople_num(), dto.getProceed_way(), dto.getIs_progress());
+        if(!post.getMember().getId().equals(memberId)){
+            throw new Exception("해당 게시글 작성자가 아닙니다.");
+        }
+        post.update(dto.getTitle(), dto.getContent(), dto.getSubject(), dto.getDivision(), dto.getPeople_num(), dto.getProceed_way(), dto.getIs_progress());
         return id;
     }
 
@@ -41,10 +45,14 @@ public class PostsService {
     }
 
     @Transactional
-    public void delete(Long id){
-        Posts posts = postsRepository.findById(id)
+    public void delete(Long id, Long memberId) throws Exception{
+        Posts post = postsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id="+id));
-        postsRepository.delete(posts);
+        if(!post.getMember().getId().equals(memberId)){
+            throw new Exception("해당 게시글 작성자가 아닙니다.");
+        }
+
+        postsRepository.delete(post);
     }
 
     @Transactional(readOnly = true)

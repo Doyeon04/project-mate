@@ -33,12 +33,12 @@ public class PostsApiController {
     @ApiOperation(value="게시물 등록")
     @PostMapping
     public ResponseEntity save(@RequestBody PostsDto.Request requestDto, @AuthenticationPrincipal Member member){
-        return ResponseEntity.ok(postsService.save(requestDto, member));
+        return ResponseEntity.ok(postsService.save(requestDto, member.getId()));
     }
     @ApiOperation(value="게시물 수정")
     @PutMapping("/{id}")
-    public ResponseEntity update(@PathVariable Long id, @RequestBody PostsDto.Request requestDto){
-        return ResponseEntity.ok(postsService.update(id, requestDto));
+    public ResponseEntity update(@PathVariable Long id, @RequestBody PostsDto.Request requestDto, @AuthenticationPrincipal Member member) throws Exception {
+        return ResponseEntity.ok(postsService.update(id, requestDto, member.getId()));
     }
 
     @ApiImplicitParams({
@@ -53,8 +53,8 @@ public class PostsApiController {
 
     @ApiOperation(value="게시물 삭제")
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable Long id){
-        postsService.delete(id);
+    public ResponseEntity delete(@PathVariable Long id, @AuthenticationPrincipal Member member) throws Exception {
+        postsService.delete(id, member.getId());
         return ResponseEntity.ok(id);
     }
 

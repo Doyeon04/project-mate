@@ -20,7 +20,8 @@ public class PostListDto {
     private String content;
     private String subject;
     private String division;
-    private String writer;
+    private String writer_nickname;
+    private String writer_id;
     private String proceed_way;
     private int is_progress;
     private String createdDate;
@@ -32,7 +33,8 @@ public class PostListDto {
         this.id = posts.getId();
         this.title = posts.getTitle();
         this.content = posts.getContent();
-        this.writer = posts.getWriter();
+        this.writer_nickname = posts.getMember().getNickname();
+        this.writer_id = posts.getMember().getStudentId();
         this.subject = posts.getSubject();
         this.division = posts.getDivision();
         this.is_progress = posts.getIs_progress();

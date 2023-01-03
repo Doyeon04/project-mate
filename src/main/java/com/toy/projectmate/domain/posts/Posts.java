@@ -22,8 +22,6 @@ public class Posts extends BaseTimeEntity {
     @Column(name="post_id")
     private Long id;
 
-    @Column(nullable = false)
-    private String writer;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="member_id")
@@ -61,8 +59,7 @@ public class Posts extends BaseTimeEntity {
     private List<Comment> commentList = new ArrayList<>();
 
     @Builder
-    public Posts(String writer, String title, Member member, String content, String subject, String division, int people_num, String proceed_way, int is_progress, int view_count) {
-        this.writer = writer;
+    public Posts(String title, Member member, String content, String subject, String division, int people_num, String proceed_way, int is_progress, int view_count) {
         this.title = title;
         this.member = member;
         this.content = content;
