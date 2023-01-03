@@ -1,6 +1,7 @@
 package com.toy.projectmate.web.dto.posts;
 
 import com.toy.projectmate.domain.Comment.Comment;
+import com.toy.projectmate.domain.member.Member;
 import com.toy.projectmate.domain.posts.Posts;
 import com.toy.projectmate.web.dto.Comment.CommentDto;
 import lombok.*;
@@ -17,6 +18,7 @@ public class PostsDto {
     public static class Request{
         private String title;
         private String content;
+        private Member member;
         private String writer;
         private String subject;
         private String division;
@@ -28,6 +30,7 @@ public class PostsDto {
         public Posts toEntity(){ // dto -> entity
             Posts posts = Posts.builder()
                     .title(title)
+                    .member(member)
                     .content(content)
                     .writer(writer)
                     .subject(subject)
@@ -45,6 +48,7 @@ public class PostsDto {
         private Long id;
         private String title;
         private String content;
+        private Member member;
         private String writer;
         private String subject;
         private String division;
@@ -61,6 +65,7 @@ public class PostsDto {
         public Response(Posts entity){ // entity -> dto
             this.id = entity.getId();
             this.title = entity.getTitle();
+            this.member = entity.getMember();
             this.writer = entity.getWriter();
             this.content = entity.getContent();
             this.subject = entity.getSubject();

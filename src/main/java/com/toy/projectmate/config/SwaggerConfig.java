@@ -10,7 +10,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
-public class SwaggerConfiguration {
+public class SwaggerConfig {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.OAS_30)
@@ -24,8 +24,8 @@ public class SwaggerConfiguration {
 
     private ApiInfo apiInfo() { // swagger ui로 노출할 정보
         return new ApiInfoBuilder()
-                .title("Swagger Test")
-                .description("설명 부분")
+                .title("project-mate Swagger")
+                .description("project-mate 프로젝트 Swagger입니다.")
                 .version("3.0")
                 .build();
     }

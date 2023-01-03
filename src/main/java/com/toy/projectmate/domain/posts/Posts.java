@@ -2,6 +2,7 @@ package com.toy.projectmate.domain.posts;
 
 import com.toy.projectmate.domain.BaseTimeEntity;
 import com.toy.projectmate.domain.Comment.Comment;
+import com.toy.projectmate.domain.member.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,11 @@ public class Posts extends BaseTimeEntity {
 
     @Column(nullable = false)
     private String writer;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="member_id")
+    private Member member;
+
     @Column(length = 500, nullable = false)
     private String title;
 
@@ -55,9 +61,10 @@ public class Posts extends BaseTimeEntity {
     private List<Comment> commentList = new ArrayList<>();
 
     @Builder
-    public Posts(String writer, String title, String content, String subject, String division, int people_num, String proceed_way, int is_progress, int view_count) {
+    public Posts(String writer, String title, Member member, String content, String subject, String division, int people_num, String proceed_way, int is_progress, int view_count) {
         this.writer = writer;
         this.title = title;
+        this.member = member;
         this.content = content;
         this.subject = subject;
         this.division = division;

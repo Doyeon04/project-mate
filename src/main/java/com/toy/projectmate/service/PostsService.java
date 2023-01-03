@@ -1,5 +1,7 @@
 package com.toy.projectmate.service;
 
+import com.toy.projectmate.domain.member.Member;
+import com.toy.projectmate.domain.member.MemberRepository;
 import com.toy.projectmate.domain.posts.Posts;
 import com.toy.projectmate.domain.posts.PostsRepository;
 import com.toy.projectmate.web.dto.posts.PostsDto;
@@ -14,9 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PostsService {
     private final PostsRepository postsRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
-    public Long save(PostsDto.Request dto){
+    public Long save(PostsDto.Request dto, Member member){
+        dto.setMember(member); // 유저 정보 담기
         return postsRepository.save(dto.toEntity()).getId();
     }
 

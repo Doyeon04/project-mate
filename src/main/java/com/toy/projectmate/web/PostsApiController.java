@@ -1,5 +1,6 @@
 package com.toy.projectmate.web;
 
+import com.toy.projectmate.domain.member.Member;
 import com.toy.projectmate.service.PostsService;
 import com.toy.projectmate.web.dto.posts.PostListDto;
 import com.toy.projectmate.web.dto.posts.PostsDto;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -30,9 +32,8 @@ public class PostsApiController {
     })
     @ApiOperation(value="게시물 등록")
     @PostMapping
-    public ResponseEntity save(@RequestBody PostsDto.Request requestDto){
-        logger.info("save 메서드 호출");
-        return ResponseEntity.ok(postsService.save(requestDto));
+    public ResponseEntity save(@RequestBody PostsDto.Request requestDto, @AuthenticationPrincipal Member member){
+        return ResponseEntity.ok(postsService.save(requestDto, member));
     }
     @ApiOperation(value="게시물 수정")
     @PutMapping("/{id}")
