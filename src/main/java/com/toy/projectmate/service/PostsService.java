@@ -1,5 +1,7 @@
 package com.toy.projectmate.service;
 
+import com.toy.projectmate.domain.bookmark.Bookmark;
+import com.toy.projectmate.domain.bookmark.BookmarkRepository;
 import com.toy.projectmate.domain.member.Member;
 import com.toy.projectmate.domain.member.MemberRepository;
 import com.toy.projectmate.domain.posts.Posts;
@@ -12,11 +14,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 public class PostsService {
     private final PostsRepository postsRepository;
     private final MemberRepository memberRepository;
+    private final BookmarkRepository bookmarkRepository;
 
     @Transactional
     public Long save(PostsDto.Request dto, Long memberId){
@@ -74,6 +80,33 @@ public class PostsService {
     @Transactional
     public Page<Posts> findListByProgress(Pageable pageable, int is_progress){
         return postsRepository.findAllByProgress(pageable, is_progress);
+    }
+
+    @Transactional
+    public void bookmarkPost(Long id, Long memberId){
+        Posts post = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다."));
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
+
+        if(bookmarkRepository.findByPostsAndMember(post, member)==null){
+            // 좋아요를 누른적이 없다면
+            post.increaseBookmarkCount(); // cnt 1증가
+            Bookmark bookmark = new Bookmark(post, member); // true 처리
+            bookmarkRepository.save(bookmark);
+        }else{
+            Bookmark bookmark = bookmarkRepository.findByPostsAndMember(post, member);
+            bookmark.cancelBookmark(post); // cnt 1감소
+            bookmarkRepository.delete(bookmark);
+        }
+
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Posts> findBookmarkedPosts(Pageable pageable, Member member){
+         return postsRepository.findAllByMember(pageable, member);
+     /*    List<PostsDto> dtoList = bookmarks.stream()
+                 .map(bookmark -> new PostsDto.Response(bookmark.getPosts()))
+                 .collect(Collectors.toList());*/
+
     }
 
 }

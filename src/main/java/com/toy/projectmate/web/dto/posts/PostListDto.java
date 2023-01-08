@@ -28,6 +28,7 @@ public class PostListDto {
     private String modifiedDate;
     private int view_count;
     private int comment_count;
+    private int bookmark_count;
 
     public PostListDto(Posts posts){
         this.id = posts.getId();
@@ -43,6 +44,7 @@ public class PostListDto {
         this.modifiedDate = posts.getModifiedDate();
         this.view_count = posts.getView_count();
         this.comment_count = calcCommentCnt(posts.getCommentList());
+        this.bookmark_count = posts.getBookmark_count();
     }
 
     public int calcCommentCnt(List<Comment> commentList){

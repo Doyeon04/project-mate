@@ -1,5 +1,6 @@
 package com.toy.projectmate.domain.posts;
 
+import com.toy.projectmate.domain.member.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface PostsRepository extends JpaRepository<Posts, Long> {
-    @Override
+
     Page<Posts> findAll(Pageable pageable);
 
     @Modifying
@@ -20,4 +21,8 @@ public interface PostsRepository extends JpaRepository<Posts, Long> {
 
     @Query(value="select p from Posts p where p.is_progress = :is_progress")
     Page<Posts> findAllByProgress(Pageable pageable, @Param("is_progress") int is_progress);
+
+    Page<Posts> findAllByMember(Pageable pageable, Member member);
+
+
 }

@@ -106,4 +106,5 @@ public class MemberServiceImpl implements MemberService{
         result.setMsg(CommonResponse.FAIL.getMsg());
     }
 
+
 }

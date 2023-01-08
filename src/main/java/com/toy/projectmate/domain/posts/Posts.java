@@ -52,7 +52,7 @@ public class Posts extends BaseTimeEntity {
     private int view_count;
 
     @Column(columnDefinition = "integer default 0", nullable = false)
-    private int mark_count;
+    private int bookmark_count;
 
     @OneToMany(mappedBy = "posts", orphanRemoval = true)
     @Where(clause = "parent_id is null")
@@ -79,5 +79,13 @@ public class Posts extends BaseTimeEntity {
         this.people_num = people_num;
         this.proceed_way = proceed_way;
         this.is_progress = is_progress;
+    }
+
+    public void increaseBookmarkCount(){
+        this.bookmark_count += 1;
+    }
+
+    public void decreaseBookmarkCount(){
+        this.bookmark_count -= 1;
     }
 }

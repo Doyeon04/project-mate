@@ -57,7 +57,9 @@ public class PostsDto {
         private String createdDate;
         private String modifiedDate;
         private int view_count;
+        private int bookmark_count;
         private List<CommentDto.Response> commentList;
+
 
 
 
@@ -75,6 +77,7 @@ public class PostsDto {
             this.createdDate = entity.getCreatedDate();
             this.modifiedDate = entity.getModifiedDate();
             this.view_count = entity.getView_count();
+            this.bookmark_count = entity.getBookmark_count();
             this.commentList = entity.getCommentList().stream().map(CommentDto.Response::new).collect(Collectors.toList());
         }
     }

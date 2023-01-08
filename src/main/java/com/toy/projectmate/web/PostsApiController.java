@@ -7,6 +7,7 @@ import com.toy.projectmate.web.dto.posts.PostsDto;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 
 import org.slf4j.Logger;
@@ -75,5 +76,14 @@ public class PostsApiController {
     public Page<PostListDto> findListByProgress(@PageableDefault(size=6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable, @RequestParam int is_progress){
         return postsService.findListByProgress(pageable, is_progress).map(PostListDto::new);
     }
+
+    @ApiOperation(value = "게시글 북마크 하기")
+    @PostMapping("/bookmark/{id}")
+    public ResponseEntity bookmarkPost(@ApiParam(value="게시글 id", required = true) @PathVariable Long id, @AuthenticationPrincipal Member member){
+        postsService.bookmarkPost(id, member.getId());
+        return ResponseEntity.ok(id);
+    }
+
+
 
 }
