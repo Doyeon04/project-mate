@@ -88,4 +88,5 @@ public class Posts extends BaseTimeEntity {
     public void decreaseBookmarkCount(){
         this.bookmark_count -= 1;
     }
+
 }

@@ -6,15 +6,18 @@ import com.toy.projectmate.domain.member.Member;
 import com.toy.projectmate.domain.member.MemberRepository;
 import com.toy.projectmate.domain.posts.Posts;
 import com.toy.projectmate.domain.posts.PostsRepository;
+import com.toy.projectmate.web.dto.posts.PostListDto;
 import com.toy.projectmate.web.dto.posts.PostsDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -43,11 +46,19 @@ public class PostsService {
     }
 
     @Transactional(readOnly = true)
-    public PostsDto.Response findById(Long id){
-        Posts posts = postsRepository.findById(id)
+    public PostsDto.Response findById(Long id, Long memberId){
+        Posts post = postsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id="+id));
 
-        return new PostsDto.Response(posts);
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
+        Optional<Posts> optionalPosts = postsRepository.findByPostAndMember(id, member.getId());
+        Optional<Bookmark> optionalBookmark = bookmarkRepository.findByPostsAndMember(post, member);
+
+        PostsDto.Response resPost = new PostsDto.Response(post);
+        resPost.setIsWriter(optionalPosts.isPresent());
+        resPost.setIsBookmarked(optionalBookmark.isPresent());
+
+        return resPost;
     }
 
     @Transactional
@@ -87,26 +98,31 @@ public class PostsService {
         Posts post = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다."));
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
 
-        if(bookmarkRepository.findByPostsAndMember(post, member)==null){
+        Optional<Bookmark> optionalBookmark = bookmarkRepository.findByPostsAndMember(post, member);
+
+        if(optionalBookmark.isEmpty()){
             // 좋아요를 누른적이 없다면
-            post.increaseBookmarkCount(); // cnt 1증가
-            Bookmark bookmark = new Bookmark(post, member); // true 처리
+            post.increaseBookmarkCount();
+            Bookmark bookmark = new Bookmark(post, member);
             bookmarkRepository.save(bookmark);
         }else{
-            Bookmark bookmark = bookmarkRepository.findByPostsAndMember(post, member);
-            bookmark.cancelBookmark(post); // cnt 1감소
+            Bookmark bookmark = optionalBookmark.get();
+            bookmark.cancelBookmark(post);
             bookmarkRepository.delete(bookmark);
         }
 
     }
 
     @Transactional(readOnly = true)
-    public Page<Posts> findBookmarkedPosts(Pageable pageable, Member member){
-         return postsRepository.findAllByMember(pageable, member);
-     /*    List<PostsDto> dtoList = bookmarks.stream()
-                 .map(bookmark -> new PostsDto.Response(bookmark.getPosts()))
-                 .collect(Collectors.toList());*/
+    public Page<PostListDto> findBookmarkedPosts(Member member){
 
+         List<Bookmark> bookmarks = bookmarkRepository.findAllByMember(member);
+
+        List<PostListDto> dtoList = bookmarks.stream()
+                .map(bookmark -> new PostListDto(bookmark.getPosts()))
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(dtoList);
     }
 
 }

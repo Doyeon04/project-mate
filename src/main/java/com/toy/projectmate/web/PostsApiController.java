@@ -47,9 +47,9 @@ public class PostsApiController {
     })
     @ApiOperation(value="게시물 조회")
     @GetMapping("/{id}")
-    public ResponseEntity read(@PathVariable Long id){
+    public ResponseEntity read(@PathVariable Long id, @AuthenticationPrincipal Member member){
         postsService.updateViewCount(id); // view count ++
-        return ResponseEntity.ok(postsService.findById(id));
+        return ResponseEntity.ok(postsService.findById(id, member.getId()));
     }
 
     @ApiOperation(value="게시물 삭제")

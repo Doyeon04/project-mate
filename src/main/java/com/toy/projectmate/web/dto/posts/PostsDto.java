@@ -42,6 +42,7 @@ public class PostsDto {
         }
     }
     @Getter
+    @Setter
     public static class Response{
         private Long id;
         private String title;
@@ -59,6 +60,8 @@ public class PostsDto {
         private int view_count;
         private int bookmark_count;
         private List<CommentDto.Response> commentList;
+        private Boolean isWriter;
+        private Boolean isBookmarked;
 
 
 
@@ -80,6 +83,8 @@ public class PostsDto {
             this.bookmark_count = entity.getBookmark_count();
             this.commentList = entity.getCommentList().stream().map(CommentDto.Response::new).collect(Collectors.toList());
         }
+
+
     }
 
 

@@ -78,8 +78,8 @@ public class MemberApiController {
 
     @ApiOperation(value = "북마크 한 글 조회", notes="유저가 북마크한 글들 조회")
     @GetMapping("/bookmarks")
-    public Page<PostListDto> findBookmarkedPosts(@PageableDefault(size=4, sort = "id", direction = Sort.Direction.DESC) Pageable pageable, @AuthenticationPrincipal Member member){
-        return postsService.findBookmarkedPosts(pageable, member).map(PostListDto::new);
+    public Page<PostListDto> findBookmarkedPosts( @AuthenticationPrincipal Member member){
+        return postsService.findBookmarkedPosts(member);
     }
 
 
