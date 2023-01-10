@@ -54,7 +54,7 @@ public class PostsService {
         Optional<Posts> optionalPosts = postsRepository.findByPostAndMember(id, member.getId());
         Optional<Bookmark> optionalBookmark = bookmarkRepository.findByPostsAndMember(post, member);
 
-        PostsDto.Response resPost = new PostsDto.Response(post);
+        PostsDto.Response resPost = new PostsDto.Response(post, memberId);
         resPost.setIsWriter(optionalPosts.isPresent());
         resPost.setIsBookmarked(optionalBookmark.isPresent());
 

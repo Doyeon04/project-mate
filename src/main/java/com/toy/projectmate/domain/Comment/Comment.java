@@ -45,7 +45,6 @@ public class Comment extends BaseTimeEntity {
     @Builder
     public Comment(Member member, String content, int secret, Posts posts, Comment parent) {
         this.member = member;
-
         this.content = content;
         this.secret = secret;
         this.posts = posts;
@@ -56,4 +55,6 @@ public class Comment extends BaseTimeEntity {
         this.content = content;
         this.secret = secret;
     }
+
+
 }

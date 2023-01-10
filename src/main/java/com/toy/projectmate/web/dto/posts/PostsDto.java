@@ -66,7 +66,7 @@ public class PostsDto {
 
 
 
-        public Response(Posts entity){ // entity -> dto
+        public Response(Posts entity, Long currentMemberId){ // entity -> dto
             this.id = entity.getId();
             this.title = entity.getTitle();
             this.writer_nickname = entity.getMember().getNickname();
@@ -81,7 +81,7 @@ public class PostsDto {
             this.modifiedDate = entity.getModifiedDate();
             this.view_count = entity.getView_count();
             this.bookmark_count = entity.getBookmark_count();
-            this.commentList = entity.getCommentList().stream().map(CommentDto.Response::new).collect(Collectors.toList());
+            this.commentList = entity.getCommentList().stream().map(c-> new CommentDto.Response(c, currentMemberId, entity.getMember().getId())).collect(Collectors.toList());
         }
 
 
