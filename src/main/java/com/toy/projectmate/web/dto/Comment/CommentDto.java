@@ -55,6 +55,7 @@ public class CommentDto {
             this.createdDate = comment.getCreatedDate();
             this.modifiedDate = comment.getModifiedDate();
         }
+
     }
 
 }
