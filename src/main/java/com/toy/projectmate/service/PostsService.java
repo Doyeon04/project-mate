@@ -1,5 +1,7 @@
 package com.toy.projectmate.service;
 
+import com.toy.projectmate.domain.Comment.Comment;
+import com.toy.projectmate.domain.Comment.CommentRepository;
 import com.toy.projectmate.domain.bookmark.Bookmark;
 import com.toy.projectmate.domain.bookmark.BookmarkRepository;
 import com.toy.projectmate.domain.member.Member;
@@ -26,6 +28,7 @@ public class PostsService {
     private final PostsRepository postsRepository;
     private final MemberRepository memberRepository;
     private final BookmarkRepository bookmarkRepository;
+    private final CommentRepository commentRepository;
 
     @Transactional
     public Long save(PostsDto.Request dto, Long memberId){
@@ -112,14 +115,27 @@ public class PostsService {
         }
 
     }
+    @Transactional
+    public Page<Posts> findPostsByMember(Pageable pageable, Member member){
+        return postsRepository.findAllByMember(pageable, member);
+    }
 
     @Transactional(readOnly = true)
     public Page<PostListDto> findBookmarkedPosts(Member member){
-
          List<Bookmark> bookmarks = bookmarkRepository.findAllByMember(member);
-
         List<PostListDto> dtoList = bookmarks.stream()
                 .map(bookmark -> new PostListDto(bookmark.getPosts()))
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(dtoList);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<PostListDto> findCommentedPosts(Member member) {
+        List<Comment> comments = commentRepository.findAllByMember(member);
+        List<PostListDto> dtoList = comments.stream()
+                .map(comment -> new PostListDto(comment.getPosts()))
+                .distinct() // 중복 제거
                 .collect(Collectors.toList());
 
         return new PageImpl<>(dtoList);

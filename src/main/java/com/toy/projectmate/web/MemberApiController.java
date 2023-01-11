@@ -78,8 +78,20 @@ public class MemberApiController {
 
     @ApiOperation(value = "북마크 한 글 조회", notes="유저가 북마크한 글들 조회")
     @GetMapping("/bookmarks")
-    public Page<PostListDto> findBookmarkedPosts( @AuthenticationPrincipal Member member){
+    public Page<PostListDto> findBookmarkedPostsByMember( @AuthenticationPrincipal Member member){
         return postsService.findBookmarkedPosts(member);
+    }
+
+    @ApiOperation(value="작성한 글 조회", notes="유저가 작성한 글들 조회")
+    @GetMapping("/posts")
+    public Page<PostListDto> findPostsByMember(Pageable pageable, @AuthenticationPrincipal Member member){
+        return postsService.findPostsByMember(pageable,member).map(PostListDto::new);
+    }
+
+    @ApiOperation(value="작성한 댓글의 글 조회", notes="유저가 작성한 댓글들의 글들 조회")
+    @GetMapping("/commentedPosts")
+    public Page<PostListDto> findCommentedPostsByMember(@AuthenticationPrincipal Member member){
+        return postsService.findCommentedPosts(member);
     }
 
 
