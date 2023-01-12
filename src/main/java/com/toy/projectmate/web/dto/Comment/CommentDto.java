@@ -49,8 +49,6 @@ public class CommentDto {
         private Boolean isWriter;
 
         public Response(Comment comment, Long currentMemberId, Long postWriterId){
-
-
             this.id = comment.getId();
             this.secret = comment.getSecret();
             this.writer_nickname = comment.getMember().getNickname();
@@ -58,7 +56,6 @@ public class CommentDto {
             if(comment.getCommentList()!= null){
                 this.commentList = comment.getCommentList().stream().map(c-> new CommentDto.Response(c, currentMemberId, postWriterId)).collect(Collectors.toList());
             }
-
             this.createdDate = comment.getCreatedDate();
             this.modifiedDate = comment.getModifiedDate();
 
