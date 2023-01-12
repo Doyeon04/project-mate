@@ -45,6 +45,7 @@ public class PostsApiController {
     @ApiImplicitParams({
             @ApiImplicitParam(name="X-AUTH-TOKEN", value="로그인 성공후 받은 토큰", required = true, dataType = "String", paramType = "header")
     })
+    @CrossOrigin(origins="*", allowedHeaders = "*")
     @ApiOperation(value="게시물 조회")
     @GetMapping("/{id}")
     public ResponseEntity read(@PathVariable Long id, @AuthenticationPrincipal Member member){

@@ -11,6 +11,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsUtils;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -27,13 +28,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 //.formLogin().disable()
                 .httpBasic().disable()// Bearer 방식 사용 (토큰)
-                //.cors().disable()
-               .csrf().disable().authorizeRequests()
+                .cors().disable()
+                .csrf().disable().authorizeRequests()
                 //.cors().and()
                 .and()
+
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+
                 .authorizeRequests()
                 .antMatchers("/member/sign-in", "/member/sign-up", "/member/exception").permitAll()
                 .antMatchers("**exception**").permitAll()
