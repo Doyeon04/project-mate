@@ -11,7 +11,8 @@ import java.util.stream.Collectors;
 
 public class PostsDto {
 
-    @Data
+    @Getter
+    @Setter
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder

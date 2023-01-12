@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 public class PostListDto {
     private Long id;
     private String title;

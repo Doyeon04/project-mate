@@ -1,5 +1,6 @@
 package com.toy.projectmate.domain.Comment;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.toy.projectmate.domain.BaseTimeEntity;
 import com.toy.projectmate.domain.member.Member;
 import com.toy.projectmate.domain.posts.Posts;
@@ -31,6 +32,7 @@ public class Comment extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="parent_id")
+    @JsonIgnore
     private Comment parent;
 
     @Column(columnDefinition = "TEXT", nullable = false)

@@ -11,7 +11,8 @@ import java.util.stream.Collectors;
 
 public class CommentDto {
 
-    @Data
+    @Getter
+    @Setter
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
@@ -48,12 +49,16 @@ public class CommentDto {
         private Boolean isWriter;
 
         public Response(Comment comment, Long currentMemberId, Long postWriterId){
-            this.id = comment.getId();
 
+
+            this.id = comment.getId();
             this.secret = comment.getSecret();
             this.writer_nickname = comment.getMember().getNickname();
             this.writer_id = comment.getMember().getStudentId();
-            this.commentList = comment.getCommentList().stream().map(c -> new CommentDto.Response(comment, currentMemberId, postWriterId)).collect(Collectors.toList());
+            if(comment.getCommentList()!= null){
+                this.commentList = comment.getCommentList().stream().map(c-> new CommentDto.Response(c, currentMemberId, postWriterId)).collect(Collectors.toList());
+            }
+
             this.createdDate = comment.getCreatedDate();
             this.modifiedDate = comment.getModifiedDate();
 
