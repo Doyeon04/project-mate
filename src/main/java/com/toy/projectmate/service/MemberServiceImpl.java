@@ -87,6 +87,7 @@ public class MemberServiceImpl implements MemberService{
                 .token(jwtTokenProvider.createToken(String.valueOf(member.getStudentId()),
                         member.getRoles()))
                 .nickname(member.getNickname())
+                .studentId(member.getStudentId())
                 .build();
         LOGGER.info("[getSignInResult] SignInResultDto 객체에 값 주입");
         setSuccessResult(signInResultDto);
