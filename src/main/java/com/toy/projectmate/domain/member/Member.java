@@ -26,7 +26,7 @@ public class Member implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable=false, unique = true)
+    @Column(length=10, nullable=false, unique = true)
     private String studentId;
 
     @Column(length=45, nullable = false, unique = true)
@@ -39,18 +39,10 @@ public class Member implements UserDetails {
     @Column(length=100)
     private String password;
 
-   /* @Enumerated(EnumType.STRING)
-    private Role role;*/
-
     @ElementCollection(fetch= FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
 
- /*   public void encodePassword(PasswordEncoder passwordEncoder){
-        this.password = passwordEncoder.encode(password);
-    }
-
-*/
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() { // 계정이 가지고 있는 권한 목록을 리턴

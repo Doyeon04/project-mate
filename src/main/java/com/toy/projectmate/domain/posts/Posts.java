@@ -36,7 +36,7 @@ public class Posts extends BaseTimeEntity {
     @Column(length = 100, nullable = false)
     private String subject;
 
-    @Column(nullable = false)
+    @Column(length = 1, nullable = false)
     private String division;
 
     @Column(nullable = false)

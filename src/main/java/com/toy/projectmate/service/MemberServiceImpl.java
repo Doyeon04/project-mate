@@ -88,6 +88,7 @@ public class MemberServiceImpl implements MemberService{
                         member.getRoles()))
                 .nickname(member.getNickname())
                 .studentId(member.getStudentId())
+                .email(member.getEmail())
                 .build();
         LOGGER.info("[getSignInResult] SignInResultDto 객체에 값 주입");
         setSuccessResult(signInResultDto);
