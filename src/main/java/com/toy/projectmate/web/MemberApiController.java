@@ -1,8 +1,10 @@
 package com.toy.projectmate.web;
 
 import com.toy.projectmate.domain.member.Member;
+import com.toy.projectmate.domain.member.MemberRepository;
 import com.toy.projectmate.service.MemberService;
 import com.toy.projectmate.service.PostsService;
+import com.toy.projectmate.web.dto.member.MemberUpdateDto;
 import com.toy.projectmate.web.dto.member.SignUpRequestDto;
 import com.toy.projectmate.web.dto.member.SignInResultDto;
 import com.toy.projectmate.web.dto.member.SignUpResultDto;
@@ -11,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,6 +22,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -33,6 +37,7 @@ public class MemberApiController {
     private final Logger LOGGER = LoggerFactory.getLogger(MemberApiController.class);
     private final MemberService memberService;
     private final PostsService postsService;
+    private final MemberRepository memberRepository;
 
     @PostMapping(value = "/sign-in")
     public SignInResultDto signIn(@RequestParam String id, @RequestParam String password) throws RuntimeException {
@@ -75,6 +80,19 @@ public class MemberApiController {
 
         return new ResponseEntity<>(map, responseHeaders, httpStatus);
     }
+
+    @ApiOperation(value = "회원 정보 수정", notes="닉네임, 비밀번호 변경")
+    @PutMapping
+    public ResponseEntity<Map<String, Object>> update(@AuthenticationPrincipal Member member, @Valid @RequestBody MemberUpdateDto memberUpdateDto){
+
+        memberService.modify(memberUpdateDto, member.getId());
+
+        Map<String, Object> memberInfo = new HashMap<>();
+        memberInfo.put("nickname", memberUpdateDto.getNickname());
+
+        return ResponseEntity.status(HttpStatus.OK).body(memberInfo);
+    }
+
 
     @ApiOperation(value = "북마크 한 글 조회", notes="유저가 북마크한 글들 조회")
     @GetMapping("/bookmark-posts")

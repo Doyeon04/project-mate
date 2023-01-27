@@ -78,4 +78,9 @@ public class Member implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public void modify(String nickname, String password){
+        this.nickname = nickname;
+        this.password = password;
+    }
 }

@@ -4,6 +4,7 @@ import com.toy.projectmate.common.CommonResponse;
 import com.toy.projectmate.config.security.JwtTokenProvider;
 import com.toy.projectmate.domain.member.Member;
 import com.toy.projectmate.domain.member.MemberRepository;
+import com.toy.projectmate.web.dto.member.MemberUpdateDto;
 import com.toy.projectmate.web.dto.member.SignUpRequestDto;
 import com.toy.projectmate.web.dto.member.SignInResultDto;
 import com.toy.projectmate.web.dto.member.SignUpResultDto;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @Transactional
@@ -107,6 +109,14 @@ public class MemberServiceImpl implements MemberService{
         result.setSuccess(false);
         result.setCode(CommonResponse.FAIL.getCode());
         result.setMsg(CommonResponse.FAIL.getMsg());
+    }
+
+    @Transactional
+    public void modify(MemberUpdateDto memberUpdateDto, Long memberId){
+        memberUpdateDto.setPassword(passwordEncoder.encode(memberUpdateDto.getPassword()));
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        member.modify(memberUpdateDto.getNickname(), memberUpdateDto.getPassword());
     }
 
 
