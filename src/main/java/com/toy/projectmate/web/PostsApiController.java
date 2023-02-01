@@ -20,6 +20,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/post")
@@ -48,8 +52,36 @@ public class PostsApiController {
     @CrossOrigin(origins="*", allowedHeaders = "*")
     @ApiOperation(value="게시물 조회")
     @GetMapping("/{id}")
-    public ResponseEntity read(@PathVariable Long id, @AuthenticationPrincipal Member member){
-        postsService.updateViewCount(id); // view count ++
+    public ResponseEntity read(@PathVariable Long id, @AuthenticationPrincipal Member member
+    , HttpServletRequest request, HttpServletResponse response){
+
+        Cookie oldCookie = null; // oldCookie 객체 선언후 빈 값으로 초기화
+        Cookie[] cookies = request.getCookies(); // request에서 쿠키들을 가져옴
+        if(cookies!=null){
+            for(Cookie cookie : cookies){
+                if(cookie.getName().equals("postView")){ // cookie가 있으면 이름이 postview인지 확인하고 맞으면 oldCookie에 대입
+                    oldCookie = cookie;
+                }
+            }
+        }
+        if(oldCookie!=null){
+            if(!oldCookie.getValue().contains("["+ id.toString() +"]")){ // oldCookie의 value중 게시물의 id값이 없을 때 조회수 올리기
+                // 있다면 이미 조회한 게시물이므로 조회수 안올라감
+                postsService.updateViewCount(id); // view count ++
+                // oldcookie에 경로, 쿠키 유지시간 추가해 response에 oldCookie를 전달
+                oldCookie.setValue(oldCookie.getValue() + "_[" + id + "]");
+                oldCookie.setPath("/");
+                oldCookie.setMaxAge(60 * 60 * 24); 							// 쿠키 시간
+                response.addCookie(oldCookie);
+            }
+        }else{
+            postsService.updateViewCount(id);
+            Cookie newCookie = new Cookie("postView", "[" + id + "]");
+            newCookie.setPath("/");
+            newCookie.setMaxAge(60 * 60 * 24); 								// 쿠키 시간
+            response.addCookie(newCookie);
+        }
+
         return ResponseEntity.ok(postsService.findById(id, member.getId()));
     }
 
