@@ -74,9 +74,9 @@ public class PostsApiController {
                 oldCookie.setMaxAge(60 * 60 * 24); 							// 쿠키 시간
                 response.addCookie(oldCookie);
             }
-        }else{
+        }else{ // oldCookie가 null일 때
             postsService.updateViewCount(id);
-            Cookie newCookie = new Cookie("postView", "[" + id + "]");
+            Cookie newCookie = new Cookie("postView", "[" + id + "]"); // postView라는 쿠키를 만들고 value는 게시글 아이디로
             newCookie.setPath("/");
             newCookie.setMaxAge(60 * 60 * 24); 								// 쿠키 시간
             response.addCookie(newCookie);

@@ -15,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -82,8 +81,8 @@ public class PostsService {
 
 
     @Transactional
-    public int updateViewCount(Long id){
-        return postsRepository.updateViewCount(id);
+    public void updateViewCount(Long id){
+        postsRepository.updateViewCount(id);
     }
 
     @Transactional

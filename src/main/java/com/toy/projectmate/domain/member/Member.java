@@ -79,8 +79,11 @@ public class Member implements UserDetails {
         return true;
     }
 
-    public void modify(String nickname, String password){
-        this.nickname = nickname;
+    public void modifyPassword(String password){
         this.password = password;
+    }
+
+    public void modifyNickname(String nickname){
+        this.nickname = nickname;
     }
 }

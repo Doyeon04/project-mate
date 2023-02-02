@@ -4,30 +4,24 @@ import com.toy.projectmate.domain.member.Member;
 import com.toy.projectmate.domain.member.MemberRepository;
 import com.toy.projectmate.service.MemberService;
 import com.toy.projectmate.service.PostsService;
-import com.toy.projectmate.web.dto.member.MemberUpdateDto;
-import com.toy.projectmate.web.dto.member.SignUpRequestDto;
-import com.toy.projectmate.web.dto.member.SignInResultDto;
-import com.toy.projectmate.web.dto.member.SignUpResultDto;
+import com.toy.projectmate.web.dto.member.*;
 import com.toy.projectmate.web.dto.posts.PostListDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @RequestMapping("/member")
@@ -81,17 +75,40 @@ public class MemberApiController {
         return new ResponseEntity<>(map, responseHeaders, httpStatus);
     }
 
-    @ApiOperation(value = "회원 정보 수정", notes="닉네임, 비밀번호 변경")
-    @PutMapping
-    public ResponseEntity<Map<String, Object>> update(@AuthenticationPrincipal Member member, @Valid @RequestBody MemberUpdateDto memberUpdateDto){
+  /*  @ApiOperation(value = "비밀번호 변경")
+    @PutMapping("/password")
+    public ResponseEntity<Map<String, String>> modifyPassword(@AuthenticationPrincipal Member member, @Valid @RequestBody MemberUpdatePasswordDto memberUpdatePasswordDto){
 
-        memberService.modify(memberUpdateDto, member.getId());
+        Map<String, String> map = new HashMap<>();
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
 
-        Map<String, Object> memberInfo = new HashMap<>();
-        memberInfo.put("nickname", memberUpdateDto.getNickname());
-
-        return ResponseEntity.status(HttpStatus.OK).body(memberInfo);
+        if(Objects.equals(member.getPassword(), memberUpdatePasswordDto.getPassword())){
+            map.put("message", "새로운 비밀번호는 기존의 비밀번호와 동일하게 설정하실 수 없습니다.");
+        }else if(!Objects.equals(memberUpdatePasswordDto.getPassword(), memberUpdatePasswordDto.getCheckedPassword())){
+            map.put("message", "비밀번호가 일치하지 않습니다.");
+        }else{
+            memberService.modifyPassword(memberUpdatePasswordDto, member.getId());
+            httpStatus = HttpStatus.OK;
+        }
+        return ResponseEntity.status(httpStatus).body(map);
     }
+*/
+    /*@ApiOperation(value="닉네임 변경")
+    @PutMapping("/nickname")
+    public ResponseEntity<Map<String,String>> modifyNickname(@AuthenticationPrincipal Member member, @Valid @RequestBody MemberUpdateNicknameDto memberUpdateNicknameDto){
+        Map<String, String> map = new HashMap<>();
+       *//* if(Objects.equals(member.getNickname(), memberUpdateNicknameDto.getNickname())){
+            map.put("message", "새로운 닉네임은 기존의 닉네임과 동일하게 설정하실 수 없습니다.");
+        }*//*
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        if(!memberService.checkNickname(memberUpdateNicknameDto.getNickname())){ // 사용 불가능한 닉네임이면
+            map.put("message", "사용할 수 없는 닉네임입니다.");
+        }else{
+            httpStatus = HttpStatus.OK;
+            memberService.modifyNickname(memberUpdateNicknameDto, member.getId());
+        }
+        return ResponseEntity.status(httpStatus).body(map);
+    }*/
 
 
     @ApiOperation(value = "북마크 한 글 조회", notes="유저가 북마크한 글들 조회")
