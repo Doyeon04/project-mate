@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @Transactional
@@ -107,7 +108,7 @@ public class MemberServiceImpl implements MemberService{
         result.setMsg(CommonResponse.FAIL.getMsg());
     }
 
-    /*@Transactional
+    @Transactional
     public void modifyPassword(MemberUpdatePasswordDto memberUpdatePasswordDto, Long memberId){
         memberUpdatePasswordDto.setPassword(passwordEncoder.encode(memberUpdatePasswordDto.getPassword()));
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
@@ -121,11 +122,18 @@ public class MemberServiceImpl implements MemberService{
         member.modifyNickname(memberUpdateNicknameDto.getNickname());
     }
 
+    public boolean checkPassword(Member member, MemberUpdatePasswordDto memberUpdatePasswordDto){
+        if(passwordEncoder.matches(memberUpdatePasswordDto.getPassword(), member.getPassword())){
+            return false;
+        }
+        else return true;
+    }
+
     public boolean checkNickname(String nickname){
         if(memberRepository.existsByNickname(nickname)){ //존재하는 닉네임이면
             return false;
         }else return true;
-    }*/
+    }
 
 
 }

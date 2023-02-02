@@ -72,17 +72,14 @@ public class Member implements UserDetails {
     public boolean isCredentialsNonExpired() {
         return true;
     }
-
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     @Override
     public boolean isEnabled() {
         return true;
     }
-
     public void modifyPassword(String password){
         this.password = password;
     }
-
     public void modifyNickname(String nickname){
         this.nickname = nickname;
     }

@@ -75,14 +75,15 @@ public class MemberApiController {
         return new ResponseEntity<>(map, responseHeaders, httpStatus);
     }
 
-  /*  @ApiOperation(value = "비밀번호 변경")
+    @ApiOperation(value = "비밀번호 변경")
     @PutMapping("/password")
     public ResponseEntity<Map<String, String>> modifyPassword(@AuthenticationPrincipal Member member, @Valid @RequestBody MemberUpdatePasswordDto memberUpdatePasswordDto){
 
         Map<String, String> map = new HashMap<>();
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
 
-        if(Objects.equals(member.getPassword(), memberUpdatePasswordDto.getPassword())){
+
+        if(!memberService.checkPassword(member, memberUpdatePasswordDto)){
             map.put("message", "새로운 비밀번호는 기존의 비밀번호와 동일하게 설정하실 수 없습니다.");
         }else if(!Objects.equals(memberUpdatePasswordDto.getPassword(), memberUpdatePasswordDto.getCheckedPassword())){
             map.put("message", "비밀번호가 일치하지 않습니다.");
@@ -92,14 +93,14 @@ public class MemberApiController {
         }
         return ResponseEntity.status(httpStatus).body(map);
     }
-*/
-    /*@ApiOperation(value="닉네임 변경")
+
+    @ApiOperation(value="닉네임 변경")
     @PutMapping("/nickname")
     public ResponseEntity<Map<String,String>> modifyNickname(@AuthenticationPrincipal Member member, @Valid @RequestBody MemberUpdateNicknameDto memberUpdateNicknameDto){
         Map<String, String> map = new HashMap<>();
-       *//* if(Objects.equals(member.getNickname(), memberUpdateNicknameDto.getNickname())){
+        if(Objects.equals(member.getNickname(), memberUpdateNicknameDto.getNickname())){
             map.put("message", "새로운 닉네임은 기존의 닉네임과 동일하게 설정하실 수 없습니다.");
-        }*//*
+        }
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         if(!memberService.checkNickname(memberUpdateNicknameDto.getNickname())){ // 사용 불가능한 닉네임이면
             map.put("message", "사용할 수 없는 닉네임입니다.");
@@ -108,7 +109,7 @@ public class MemberApiController {
             memberService.modifyNickname(memberUpdateNicknameDto, member.getId());
         }
         return ResponseEntity.status(httpStatus).body(map);
-    }*/
+    }
 
 
     @ApiOperation(value = "북마크 한 글 조회", notes="유저가 북마크한 글들 조회")
@@ -128,6 +129,4 @@ public class MemberApiController {
     public Page<PostListDto> findCommentedPostsByMember(@AuthenticationPrincipal Member member){
         return postsService.findCommentedPosts(member);
     }
-
-
 }
