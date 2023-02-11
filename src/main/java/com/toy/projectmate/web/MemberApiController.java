@@ -106,6 +106,7 @@ public class MemberApiController {
             map.put("message", "사용할 수 없는 닉네임입니다.");
         }else{
             httpStatus = HttpStatus.OK;
+            map.put("nickname", memberUpdateNicknameDto.getNickname());
             memberService.modifyNickname(memberUpdateNicknameDto, member.getId());
         }
         return ResponseEntity.status(httpStatus).body(map);
