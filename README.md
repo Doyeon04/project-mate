@@ -1,7 +1,8 @@
 # Project-Mate
 
-프론트 깃허브 주소: https://github.com/srp0114/ProjectMate
-백엔드 깃허브 주소: https://github.com/Doyeon04/project-mate 
+프론트 깃허브 주소: https://github.com/srp0114/ProjectMate  
+백엔드 깃허브 주소: https://github.com/Doyeon04/project-mate  
+<br>
 
 ## 프로젝트 소개
 교내 팀플의 팀원을 손쉽게 모집할 수 있는 사이트입니다.  
