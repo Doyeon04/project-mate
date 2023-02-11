@@ -1,9 +1,12 @@
 # Project-Mate
 
+프론트 깃허브 주소: https://github.com/srp0114/ProjectMate
+백엔드 깃허브 주소: https://github.com/Doyeon04/project-mate 
+
 ## 프로젝트 소개
 교내 팀플의 팀원을 손쉽게 모집할 수 있는 사이트입니다.  
 
-프론트 깃허브 주소: https://github.com/srp0114/ProjectMate  
+
 <br>
 
 ## 개발 인원 및 기간
@@ -29,7 +32,7 @@
   - 데이터베이스: MySQL
   - 개발 도구: Intellij
 
-- Front-End:
+- Front-End
   - 개발 언어 및 기술: Javascript, HTML, CSS, React
   - 개발 도구: Vscode
   
